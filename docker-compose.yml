@@ -2,12 +2,25 @@ version: '3.9'
 ### Author:vmn3
 
 services:
+  db:
+    image: mysql:8.0
+    restart: always
+    ports:          #
+      - 80:80    #
+    environment:
+      WORDPRESS_DB_HOST: wordpress-nichiporenko.cacj33man8jg.us-east-1.rds.amazonaws.com:3306
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: a4CqslOQtg0vRRMsy0we
+      WORDPRESS_DB_NAME: wordpressnichiporenko
+    volumes:
+      - db:/var/lib/mysql
+
 
   wordpress:
-    image: wordpress
-    restart: always
+    image: wordpress:latest
     ports:
       - 8080:80
+    restart: always 
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: exampleuser
@@ -16,15 +29,3 @@ services:
     volumes:
       - wordpress:/var/www/html
 
-  db:
-    image: mysql:5.7
-    restart: always
-    ports:          #
-      - 3306:3306     #
-    environment:
-      MYSQL_DATABASE: exampledb
-      MYSQL_USER: exampleuser
-      MYSQL_PASSWORD: examplepass
-      MYSQL_RANDOM_ROOT_PASSWORD: '1'
-    volumes:
-      - db:/var/lib/mysql
